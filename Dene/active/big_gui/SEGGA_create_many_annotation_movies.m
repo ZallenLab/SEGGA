@@ -1,0 +1,73 @@
+function SEGGA_create_many_annotation_movies(indir,pol_only,annotation_selection,fullcmapname,pol_cmap_opts)
+
+if nargin < 5 || isempty(pol_cmap_opts)
+    pol_cmap_opts.type = 'Adaptive';
+    pol_cmap_opts.val = 0;
+    pol_cmap_opts.bounds = [];
+end
+
+if nargin <4 || isempty(fullcmapname)
+    cmapDB_bool = true; %now getting everything through the cmap database
+
+%     if isdeployed()
+%         base_dir = [ctfroot(),filesep,'cmap_files',filesep];
+%     end
+    base_dir = [fileparts(mfilename('fullpath')),filesep,'..',filesep,'general',filesep];
+
+    
+    fullcmapname = [base_dir,filesep,'SEGGA_default_cmaps'];
+else
+    cmapDB_bool = true;
+    if isempty(dir(fullcmapname))
+        display(['cmap file (''',fullcmapname,''') not found']);
+        display('quitting');
+        return
+    end
+end
+
+if nargin <3 || isempty(annotation_selection)
+    annoation_selection.names = {...
+        'nlost_t0';...
+        'nsides';...
+        'len_width';...
+        'eccentricity';...
+        'cell_area';...
+        'ros_all';...
+        'eccentricity';...
+        'pat_defo';...
+        'polarity'...        
+        };
+    annotation_selection.cmap_names = annoation_selection.names;
+	annotation_selection.sel_vals = {...
+        true;...%'nlost_t0';...
+        false;...%'nsides';...
+        true;...%'len_width';...
+        false;...%'eccentricity';...
+        false;...%'cell_area';...
+        true;...%'ros_all';...
+        false;...%'eccentricity';...
+        false;...%'pat_defo';...
+        false;...%'polarity'...        
+        };
+end
+
+if nargin <2 || isempty(pol_only)
+    pol_only = false;
+end
+
+if nargin <1 || isempty(indir)
+    indir = pwd;
+end
+
+startdir = pwd;
+cd(indir);
+
+seq.directory = pwd;
+seq = load_dir(pwd);
+data = seq2data(seq);
+cells = find(any(data.cells.selected));
+savename = 'test';
+extra_savename = 'cellshapes';
+make_and_save_cellshapes_full(seq, cells, savename, extra_savename,pol_only,...
+                              annotation_selection,cmapDB_bool,fullcmapname,...
+                              pol_cmap_opts);

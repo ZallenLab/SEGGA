@@ -1,0 +1,29 @@
+Checklist
+
+1. Correct Movie Completely
+There should be zero tracking errors.
+You will have a "poly_seq.mat" file saved in the seg folder if you have corrected the movie.
+
+
+2.  Select Cells for Elongation (elon cells)
+
+3.  Inspect Elongation Chart to find a shift value (view elon)
+
+4. Find the frame at which elongation begins.
+The variable 'shift_info' is equal to the number of frames the movie 
+needs to be shifted to the RIGHT. If the movie begins before t=0 (elongation begins),
+then it needs to be shifted to the LEFT and the shift info is a negative number. 
+e.g. if elongation starts at frame 20, then the shift_info = -20.
+
+5. Save the shift_info
+
+6. Make sure the 'timestep' is saved
+The 'timestep' is the number of seconds between frames
+
+7.  Select Cells used for cell rearrangement calculations (topo cells).
+The default criterion is that a cell must be tracked within the ROI poly
+for at least  50 frames after the onset of elongation.
+
+Things to Double Check:
+8. If you have a z shift in time, or you have more than one z layer projected per time point, 
+then you need a 'z_shift' file that specifies the z_layer at each time point.
