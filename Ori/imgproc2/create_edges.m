@@ -104,6 +104,7 @@ max_radius = max(circles(:,3));
     do_nodes;
     toc
     
+    nodes_perimeter = imdilate(nodes_objects, strel('square', 3)) .* ~~(cells_objects);
     border_nodes = unique([nodes_perimeter(working_area_inner_boundary);  nodes_perimeter(working_area_boundary)], 'legacy');
     border_cells = unique([cells_objects(1:5,1:n) cells_objects(m-4:m,1:n) cells_objects(1:m,1:5)' cells_objects(1:m,n-4:n)'], 'legacy');
     border_cells = union(border_cells, nodes_cells(ismember(nodes_cells(:,2), border_nodes, 'legacy'), 1), 'legacy');    

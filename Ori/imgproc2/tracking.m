@@ -4772,8 +4772,8 @@ states = [];
 names = fieldnames(handles);
 for i = 1:length(names)
     ctrl = getfield(handles, names{i});
-    if isprop(ctrl, 'Enable') && ctrl ~= handles.figure1 ...
-            && ctrl ~= handles.axes1
+    if isprop(ctrl, 'Enable') & ctrl ~= handles.figure1 ...
+            & ctrl ~= handles.axes1
         states.(names{i}) = get(ctrl, 'Enable');
         set(ctrl, 'Enable', 'Off');
     end
